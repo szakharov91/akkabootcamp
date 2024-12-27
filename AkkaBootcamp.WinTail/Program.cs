@@ -20,7 +20,7 @@ internal class Program
         var consoleReaderActor = MyActorSystem.ActorOf(Props.Create(() => new ConsoleReaderActor(consoleWriteActor)));
 
         // tell console reader to begin
-        consoleReaderActor.Tell("start");
+        consoleReaderActor.Tell(ConsoleReaderActor.StartCommand);
 
         // blocks the main thread from exiting until the actor system is shut down
         MyActorSystem.WhenTerminated.Wait();
