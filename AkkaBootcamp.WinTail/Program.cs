@@ -14,10 +14,14 @@ internal class Program
 
         PrintInstructions();
 
-        // time to make your first actors!
-        //YOU NEED TO FILL IN HERE
-        var consoleWriteActor = MyActorSystem.ActorOf(Props.Create(() => new ConsoleWriterActor()));
-        var consoleReaderActor = MyActorSystem.ActorOf(Props.Create(() => new ConsoleReaderActor(consoleWriteActor)));
+        Props consoleWriteProps = Props.Create(typeof(ConsoleWriterActor));
+        IActorRef consoleWriterActor = MyActorSystem.ActorOf(consoleWriteProps, "consoleWriterActor");
+
+        Props validationActorProps = Props.Create(() => new ValidationActor(consoleWriterActor));
+        IActorRef validationActor = MyActorSystem.ActorOf(validationActorProps, "validationActor");
+
+        Props consoleReadProps = Props.Create<ConsoleReaderActor>(validationActor);
+        IActorRef consoleReaderActor = MyActorSystem.ActorOf(consoleReadProps, "consoleReaderActor");
 
         // tell console reader to begin
         consoleReaderActor.Tell(ConsoleReaderActor.StartCommand);
