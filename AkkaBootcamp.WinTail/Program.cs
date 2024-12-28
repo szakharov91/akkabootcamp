@@ -14,11 +14,14 @@ internal class Program
 
         PrintInstructions();
 
+        Props tailCoordinatorProps = Props.Create(() => new TailCoordinatorActor());
+        IActorRef tailCoordinatorActor = MyActorSystem.ActorOf(tailCoordinatorProps, "tailCoordinatorActor");
+
         Props consoleWriteProps = Props.Create(typeof(ConsoleWriterActor));
         IActorRef consoleWriterActor = MyActorSystem.ActorOf(consoleWriteProps, "consoleWriterActor");
 
-        Props validationActorProps = Props.Create(() => new ValidationActor(consoleWriterActor));
-        IActorRef validationActor = MyActorSystem.ActorOf(validationActorProps, "validationActor");
+        Props fileValidatorActorProps = Props.Create(() => new FileValidatorActor(consoleWriterActor, tailCoordinatorActor));
+        IActorRef validationActor = MyActorSystem.ActorOf(fileValidatorActorProps, "validationActor");
 
         Props consoleReadProps = Props.Create<ConsoleReaderActor>(validationActor);
         IActorRef consoleReaderActor = MyActorSystem.ActorOf(consoleReadProps, "consoleReaderActor");
