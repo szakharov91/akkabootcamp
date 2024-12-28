@@ -16,9 +16,9 @@ public class TailActor : UntypedActor
 {
     private readonly IActorRef reporterActor;
     private readonly string filePath;
-    private readonly FileObserver observer;
-    private readonly Stream fileStream;
-    private readonly StreamReader fileStreamReader;
+    private FileObserver observer;
+    private Stream fileStream;
+    private StreamReader fileStreamReader;
     #region Message types
     /// <summary>
     /// Signal that the file has changed, and we need to 
@@ -71,7 +71,10 @@ public class TailActor : UntypedActor
     {
         this.reporterActor = reporterActor;
         this.filePath = filePath;
+    }
 
+    protected override void PreStart()
+    {
         // start watching file for changes
         observer = new FileObserver(Self, Path.GetFullPath(filePath));
         observer.Start();
@@ -85,6 +88,15 @@ public class TailActor : UntypedActor
         // read the initial contents of the file and send it to console as first msg
         var text = fileStreamReader.ReadToEnd();
         Self.Tell(new InitialRead(filePath, text));
+    }
+
+    protected override void PostStop()
+    {
+        observer.Dispose();
+        observer = null;
+        fileStreamReader.Close();
+        fileStreamReader.Dispose();
+        base.PostStop();
     }
 
     protected override void OnReceive(object message)
