@@ -16,13 +16,6 @@ public class ConsoleReaderActor : UntypedActor
     public const string ExitCommand = "exit";
     public const string StartCommand = "start";
 
-    private readonly IActorRef _validationActor;
-
-    public ConsoleReaderActor(IActorRef validatorActor)
-    {
-        _validationActor = validatorActor;
-    }
-
     protected override void OnReceive(object message)
     {
         if (message.Equals(StartCommand))
@@ -50,7 +43,7 @@ public class ConsoleReaderActor : UntypedActor
             return;
         }
 
-        _validationActor.Tell(message);
+        Context.ActorSelection("akka://MyActorSystem/user/validationActor").Tell(message);
     }
     #endregion
 }

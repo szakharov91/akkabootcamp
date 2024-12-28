@@ -20,10 +20,10 @@ internal class Program
         Props consoleWriteProps = Props.Create(typeof(ConsoleWriterActor));
         IActorRef consoleWriterActor = MyActorSystem.ActorOf(consoleWriteProps, "consoleWriterActor");
 
-        Props fileValidatorActorProps = Props.Create(() => new FileValidatorActor(consoleWriterActor, tailCoordinatorActor));
+        Props fileValidatorActorProps = Props.Create(() => new FileValidatorActor(consoleWriterActor));
         IActorRef validationActor = MyActorSystem.ActorOf(fileValidatorActorProps, "validationActor");
 
-        Props consoleReadProps = Props.Create<ConsoleReaderActor>(validationActor);
+        Props consoleReadProps = Props.Create<ConsoleReaderActor>();
         IActorRef consoleReaderActor = MyActorSystem.ActorOf(consoleReadProps, "consoleReaderActor");
 
         // tell console reader to begin
