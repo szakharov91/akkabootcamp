@@ -1,9 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.12.35527.113 d17.12
+VisualStudioVersion = 17.12.35527.113
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AkkaBootcamp.WinTail", "AkkaBootcamp.WinTail\AkkaBootcamp.WinTail.csproj", "{C742ADC9-CCA4-4AEE-80BE-49616C908832}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AkkaBootcamp.ChartApp", "AkkaBootcamp.ChartApp\AkkaBootcamp.ChartApp.csproj", "{DB7B85E3-E701-4CEB-B31E-F01B258D791C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{C742ADC9-CCA4-4AEE-80BE-49616C908832}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C742ADC9-CCA4-4AEE-80BE-49616C908832}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C742ADC9-CCA4-4AEE-80BE-49616C908832}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DB7B85E3-E701-4CEB-B31E-F01B258D791C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DB7B85E3-E701-4CEB-B31E-F01B258D791C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DB7B85E3-E701-4CEB-B31E-F01B258D791C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DB7B85E3-E701-4CEB-B31E-F01B258D791C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
