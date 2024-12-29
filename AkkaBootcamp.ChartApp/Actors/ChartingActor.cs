@@ -8,7 +8,7 @@ using System.Windows.Forms.DataVisualization.Charting;
 
 namespace AkkaBootcamp.ChartApp.Actors;
 
-public class ChartingActor : UntypedActor
+public class ChartingActor : ReceiveActor
 {
     #region Messages
 
@@ -20,6 +20,19 @@ public class ChartingActor : UntypedActor
         }
 
         public Dictionary<string, Series> InitialSeries { get; }
+    }
+
+    /// <summary>
+    /// Add a new <see cref="Series"/> to the chart
+    /// </summary>
+    public class AddSeries
+    {
+        public AddSeries(Series series)
+        {
+            Series = series;
+        }
+
+        public Series Series { get; private set; }
     }
 
     #endregion
@@ -36,14 +49,18 @@ public class ChartingActor : UntypedActor
     {
         _chart = chart;
         _seriesIndex = seriesIndex;
+
+        Receive<InitializeChart>(ic => HandleInitialize(ic));
+        Receive<AddSeries>(addSeries => HandleAddSeries(addSeries));
     }
 
-    protected override void OnReceive(object message)
+    private void HandleAddSeries(AddSeries series)
     {
-        if(message is InitializeChart)
+        if(!string.IsNullOrEmpty(series.Series.Name) &&
+            !_seriesIndex.ContainsKey(series.Series.Name))
         {
-            var ic = message as InitializeChart;
-            HandleInitialize(ic);
+            _seriesIndex.Add(series.Series.Name, series.Series);
+            _chart.Series.Add(series.Series);
         }
     }
 

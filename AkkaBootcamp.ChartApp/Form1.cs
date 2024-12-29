@@ -16,8 +16,7 @@ namespace AkkaBootcamp.ChartApp
 
         private void Main_Load(object sender, EventArgs e)
         {
-            _chartActor = Program.ChartActors.ActorOf(
-                Props.Create(() => new ChartingActor(sysChart)), "charting");
+            _chartActor = Program.ChartActors.ActorOf(Props.Create(() => new ChartingActor(sysChart)), "charting");
 
             var series = ChartDataHelper.RandomSeries("FakeSeries" + _seriesCounter.GetAndIncrement());
             _chartActor.Tell(new ChartingActor.InitializeChart(new Dictionary<string, System.Windows.Forms.DataVisualization.Charting.Series>()
@@ -31,6 +30,12 @@ namespace AkkaBootcamp.ChartApp
             _chartActor.Tell(PoisonPill.Instance);
 
             Program.ChartActors.Terminate();
+        }
+
+        private void AddSeriesBtn_Click(object sender, EventArgs e)
+        {
+            var series = ChartDataHelper.RandomSeries("FakeSeries" + _seriesCounter.GetAndIncrement());
+            _chartActor.Tell(new ChartingActor.AddSeries(series));
         }
     }
 }
