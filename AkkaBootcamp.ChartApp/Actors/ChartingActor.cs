@@ -10,7 +10,7 @@ using System.Windows.Forms.DataVisualization.Charting;
 
 namespace AkkaBootcamp.ChartApp.Actors;
 
-public class ChartingActor : ReceiveActor
+public class ChartingActor : ReceiveActor, IWithUnboundedStash
 {
     #region Reporting
 
@@ -141,6 +141,9 @@ public class ChartingActor : ReceiveActor
     /// Incrementing counter we use to plot along the X-axis
     /// </summary>
     private int xPosCounter = 0;
+
+    public IStash Stash { get; set; }
+
     public ChartingActor(Chart chart, Button pauseButton) : this(chart, new Dictionary<string, Series>(), pauseButton)
     {
         
@@ -184,6 +187,8 @@ public class ChartingActor : ReceiveActor
         {
             SetPauseButtonText(false);
             UnbecomeStacked();
+
+            Stash.UnstashAll();
         });
     }
 
