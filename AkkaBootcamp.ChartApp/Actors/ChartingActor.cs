@@ -164,7 +164,7 @@ public class ChartingActor : ReceiveActor, IWithUnboundedStash
         Receive<AddSeries>(addSeries => HandleAddSeries(addSeries));
         Receive<RemoveSeries>(removeSeries => HandleRemoveSeries(removeSeries));
         Receive<Metric>(metric => HandleMetrics(metric));
-
+        
         //new receive handler for the TogglePause message type
         Receive<TogglePause>(pause =>
         {
