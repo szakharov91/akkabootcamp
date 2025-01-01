@@ -117,9 +117,9 @@ namespace AkkaBootcamp.GithubActors.Actors
 
             _coordinator = Context.ActorOf(Props.Empty.WithRouter(
                 new BroadcastGroup(
-                    ActorPaths.GithubCoordinatorActor.Name + "1",
-                    ActorPaths.GithubCoordinatorActor.Name + "2",
-                    ActorPaths.GithubCoordinatorActor.Name + "3")));
+                    ActorPaths.GithubCoordinatorActor.Path + "1",
+                    ActorPaths.GithubCoordinatorActor.Path + "2",
+                    ActorPaths.GithubCoordinatorActor.Path + "3")));
             
             base.PreStart();
         }
