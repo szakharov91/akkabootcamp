@@ -1,4 +1,5 @@
 ﻿using Akka.Actor;
+using Akka.Routing;
 using Octokit;
 
 namespace AkkaBootcamp.GithubActors.Actors
@@ -74,7 +75,9 @@ namespace AkkaBootcamp.GithubActors.Actors
 
         protected override void PreStart()
         {
-            _githubWorker = Context.ActorOf(Props.Create(() => new GithubWorkerActor(GithubClientFactory.GetClient)));
+            _githubWorker = Context.ActorOf(
+                Props.Create(() => new GithubWorkerActor(GithubClientFactory.GetClient))
+                    .WithRouter(new RoundRobinPool(10)));
         }
 
         private void Waiting()
