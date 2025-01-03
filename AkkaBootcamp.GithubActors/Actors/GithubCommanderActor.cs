@@ -47,6 +47,8 @@ namespace AkkaBootcamp.GithubActors.Actors
 
         private int pendingJobReplies;
 
+        private RepoKey _repoJob;
+
         public GithubCommanderActor()
         {
             Ready();
@@ -56,8 +58,9 @@ namespace AkkaBootcamp.GithubActors.Actors
         {
             Receive<CanAcceptJob>(job =>
             {
-                BecomeAsking();
                 _coordinator.Tell(job);
+                _repoJob = job.Repo;
+                BecomeAsking();
             });
         }
 
@@ -67,6 +70,8 @@ namespace AkkaBootcamp.GithubActors.Actors
             pendingJobReplies = _coordinator.Ask<Routees>(new GetRoutees())
                 .Result.Members.Count();
             Become(Asking);
+
+            Context.SetReceiveTimeout(TimeSpan.FromSeconds(3));
         }
 
         private void Asking()
@@ -103,6 +108,8 @@ namespace AkkaBootcamp.GithubActors.Actors
         {
             Become(Ready);
             Stash.UnstashAll();
+
+            Context.SetReceiveTimeout(null);
         }
 
         protected override void PreStart()
